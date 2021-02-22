@@ -32,12 +32,3 @@ jobs:
             tryredox/redox/build/*.iso
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  Test:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Get source
-        uses: actions/checkout@v2
-      - name: Show files
-        run: ls
-      - name: Run test
-        run: python3 ../shell/shell.py
