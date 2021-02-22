@@ -26,9 +26,9 @@ jobs:
       - name: Show directory
         run: ls
       - name: Build
-        run: make -j $(nproc) all
+        run: cd redox && make -j $(nproc) all
       - name: ISO time
-        run: make iso
+        run: cd redox && make iso
       - name: Release output files
         uses: softprops/action-gh-release@v1
         with:
