@@ -40,4 +40,4 @@ jobs:
       - name: Show files
         run: ls
       - name: Run test
-        run: python3 shell/shell.py
+        run: python3 ../shell/shell.py
