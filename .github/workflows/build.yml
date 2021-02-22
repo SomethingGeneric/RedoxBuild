@@ -1,0 +1,38 @@
+name: Build Redox ISO
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+defaults:
+  run:
+    working-directory: ./tryredox
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repo
+        uses: actions/checkout@v2
+      - name: Show directory
+        run: ls
+      - name: Get build requirements
+        run: sudo apt install cmake make nasm qemu pkg-config libfuse-dev wget gperf libhtml-parser-perl autoconf flex autogen po4a expat -y
+      - name: Get source
+        run: git clone https://gitlab.redox-os.org/redox-os/redox.git --origin upstream --recursive && cd redox && git submodule update --recursive --init
+      - name: Ensure rust setup
+        run: rustup default nightly && cargo install --force --version 0.3.20 xargo
+      - name: Show directory
+        run: ls
+      - name: Build
+        run: make -j $(nproc) all
+      - name: ISO time
+        run: make iso
+      - name: Release output files
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            tryredox/redox/*.iso
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
