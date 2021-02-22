@@ -17,10 +17,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Show directory
         run: ls
-      - name: Get build requirements
-        run: sudo apt install cmake make nasm qemu pkg-config libfuse-dev wget gperf libhtml-parser-perl autoconf flex autogen po4a expat -y
-      - name: Get source
-        run: git clone https://gitlab.redox-os.org/redox-os/redox.git --origin upstream --recursive && cd redox && git submodule update --recursive --init
+      - name: Get build requirements & source
+        run: curl -sf https://gitlab.redox-os.org/redox-os/redox/raw/master/bootstrap.sh -o bootstrap.sh && bash -e bootstrap.sh
       - name: Ensure rust setup
         run: rustup default nightly && cargo install --force --version 0.3.20 xargo
       - name: Show files
